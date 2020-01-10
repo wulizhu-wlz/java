@@ -1,0 +1,32 @@
+<div class="login-wrap">
+    <div class="login-box">
+        <div class="login-box-main clearfix">
+            <div class="login-bg pull-left"></div>
+            <!--登录-->
+            <form class="form-horizontal pull-left login-form" novalidate name="loginForm" >
+                <div class="form-group clearfix">
+                    <input type="text" class="form-control" placeholder="用户名" name="usrCd " ng-model="user.usrCd" required ng-focus>
+                    <i  class="v-news" ng-class="{'v-fail': (loginForm.usrCd.$invalid && loginForm.usrCd.$dirty && !loginForm.usrCd.$focused) || (loginForm.usrCd.$invalid && submitted), 'v-succees' : (loginForm.usrCd.$valid && loginForm.usrCd.$dirty && !loginForm.usrCd.$focused) || (loginForm.usrCd.$valid && submitted)}"   
+                    ></i>
+                </div>
+                <div class="form-group clearfix">
+                    <input type="password" class="form-control" placeholder="密码" name="usrPwd" ng-model="user.usrPwd" required ng-focus>
+                    <i  class="v-news" ng-class="{'v-fail': (loginForm.usrPwd.$invalid && loginForm.usrPwd.$dirty && !loginForm.usrPwd.$focused) || (loginForm.usrPwd.$invalid && submitted), 'v-succees' : (loginForm.usrPwd.$valid && loginForm.usrPwd.$dirty && !loginForm.usrPwd.$focused) || (loginForm.usrPwd.$valid && submitted)}"   
+                    ></i>
+                </div>
+                 <!--<div class="form-group rel clearfix">-->
+                    <!--<input type="text" class="form-control" placeholder="验证码" name="verCd" ng-model="user.verCd" required ng-focus ng-keydown="keyLogin($event)">-->
+                    <!--<img title="看不清，点击更换" alt="看不清，点击更换" ng-src="{{pverifyCode}}" class="code-ph" ng-click="changeCode()">-->
+                     <!--<i  class="v-news" ng-class="{'v-fail': (loginForm.verCd.$invalid && loginForm.verCd.$dirty && !loginForm.verCd.$focused) || (loginForm.verCd.$invalid && submitted), 'v-succees' : (loginForm.verCd.$valid && loginForm.verCd.$dirty && !loginForm.verCd.$focused) || (loginForm.verCd.$valid && submitted)}"   -->
+                    <!--&gt;</i>-->
+                <!--</div>-->
+                <div class="form-group"><button type="button" class="btn btn-sm" ng-click="loginSumit()" ng-disabled="loginForm.$invalid">登录</button>
+                </div>
+            </form>
+            <!--登录-->
+        </div>
+        <div class="login-box-bg"></div>
+        <div class="login-box-bg login-box-bg1"></div>
+    </div>
+    <div class="icp text-center">ipaynow&nbsp;©&nbsp;版本所有现在<span class="m-r-5 m-l-5">(北京)</span> 支付股份有限公司</div>
+</div>

@@ -1,0 +1,77 @@
+<div id="noData" ng-show="!panelSearchDialog" class="content">
+    <span class="text-center">无数据记录</span>
+</div>
+<div id="content" class="content" ng-show="panelSearchDialog">
+    <div class="content-wrap">
+        <form class="search-box form-horizontal" name="merchantApplicationListForm" novalidate>
+            <table class="search-box-table">
+                <tbody>
+                <tr>
+                    <td class="text-right">商户编号</td>
+                    <td><input type="text" class="form-control" name="idOfTbMerchantUser" ng-model="transQuery.idOfTbMerchantUser" placeholder="九盈商户编号"></td>
+                    <td class="text-right">合同编号</td>
+                    <td><input type="text" class="form-control" name="materialNo" ng-model="transQuery.materialNo" placeholder="合同编号"></td>
+                    <td class="text-right">申请状态</td>
+                    <td>
+                        <select>
+                            <option value="0">用户已提交申请</option>
+                            <option value="1">审批中</option>
+                            <option value="2">申请成功</option>
+                            <option value="3">申请被拒</option>
+                        </select>
+                    </td>
+                    <td class="text-right">申请日期</td>
+                    <td colspan="3" class="form-inline">
+                        <div class="input-group time-box">
+                            <input type="text" class="form-control" ng-model="transQuery.creaitApplyBeginDate" ng-date name="creaitApplyBeginDate" readonly minview="2">
+                            <span class="input-group-addon add-on"><i class="fa fa-calendar"></i></span>
+                        </div>
+                        <span>至</span>
+                        <div class="input-group time-box">
+                            <input type="text" class="form-control" ng-model="transQuery.creaitApplyEndDate" ng-date name="creaitApplyEndDate" readonly minview="2" endmins="true">
+                            <span class="input-group-addon add-on"><i class="fa fa-calendar"></i></span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="8" class="text-center">
+                        <button class="btn btn-primary btn-sm m-r-10" ng-search-btn>查询</button>
+                        <button class="btn btn-white btn-sm m-r-10" ng-reset-btn>重置</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+
+        <table id="data-table" class="table table-striped table-bordered table-hover table1 text-center">
+            <thead>
+            <tr>
+                <th>商户编号</th>
+                <th>保险合同编号</th>
+                <th>展期日利率（%）</th>
+                <th>展期服务费率（%）</th>
+                <th>展期手续费率（%）</th>
+                <th>罚息（元）</th>
+                <th>营业执照到期日期</th>
+                <th>申请状态</th>
+                <th>申请日期</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in list">
+                <td width="6%">{{item.idOfTbMerchantUser}}</td>
+                <td width="9%">{{item.materialNo}}</td>
+                <td width="9%">{{item.renewedRate}}</td>
+
+                <td>{{item.renewedServiceFee}}</td>
+                <td>{{item.renewedFee}}</td>
+                <td>{{item.penalty}}</td>
+                <td>{{item.yyzzExpireDate | date:'yyyy-MM-dd'}}</td>
+                <td>{{item.loanStatus}}</td>
+                <td width="8%">{{item.creaitApplyDate | date:'yyyy-MM-dd'}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <pagination></pagination>
+</div>

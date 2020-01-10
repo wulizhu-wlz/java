@@ -1,0 +1,35 @@
+<div id="noData" ng-show="!panelSearchDialog" class="content">
+    <span class="text-center">无还款记录</span>
+</div>
+<div id="content" class="content" id="panelSearchDialog" ng-show="panelSearchDialog">
+    <div class="content-wrap">
+        <table id="data-table" class="table table-striped table-bordered table-hover table1 text-center">
+            <caption class="text-center">还款明细</caption>
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>还款本金（元）</th>
+                <th>还款利息（元）</th>
+                <th>未还本金（元）</th>
+                <td>未还利息（元）</td>
+                <td>还款日期</td>
+                <td>还款哈希值</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in list">
+                <td>{{$index+1}}</td>
+                <td>{{item.refundPrinciple}}</td>
+                <td>{{item.refundRate}}</td>
+
+                <td>{{item.refundPrincipleNotPayback}}</td>
+                <td>{{item.refundRateNotPayback}}</td>
+
+                <td>{{item.refundDate}}</td>
+                <td>{{item.transHash}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <pagination></pagination>
+</div>

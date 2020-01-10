@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ipaynow.bcfinance.dao.LoanRepayMapper" >
+  <resultMap id="BaseResultMap" type="com.ipaynow.bcfinance.domain.LoanRepay" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="loan_credit_id" property="loanCreditId" jdbcType="BIGINT" />
+    <result column="repay_amount" property="repayAmount" jdbcType="DECIMAL" />
+    <result column="repay_principle" property="repayPrinciple" jdbcType="DECIMAL" />
+    <result column="repay_rate" property="repayRate" jdbcType="DECIMAL" />
+    <result column="repay_date" property="repayDate" jdbcType="VARCHAR" />
+    <result column="chain_status" property="chainStatus" jdbcType="TINYINT" />
+    <result column="should_repay_principle" property="shouldRepayPrinciple" jdbcType="DECIMAL" />
+    <result column="should_repay_rate" property="shouldRepayRate" jdbcType="DECIMAL" />
+    <result column="repay_record_address" property="repayRecordAddress" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="extend" property="extend" jdbcType="VARCHAR" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="modified_time" property="modifiedTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, loan_credit_id, repay_amount, repay_principle, repay_rate, repay_date, chain_status, 
+    should_repay_principle, should_repay_rate, repay_record_address, status, extend, 
+    created_time, modified_time
+  </sql>
+
+  <select id="selectSendCmbList" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM
+      bf_repay A
+    WHERE
+      created_time BETWEEN #{startTime} AND #{endTime}
+    AND
+      STATUS = 1
+    AND
+      chain_status = 1
+    AND
+      NOT EXISTS(SELECT id FROM bf_chain_trans WHERE buiness_id = A.id AND chain_id = 2 AND operation_type = 7)
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ipaynow.bcfinance.domain.LoanRepayExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from bf_repay
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from bf_repay
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from bf_repay
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ipaynow.bcfinance.domain.LoanRepayExample" >
+    delete from bf_repay
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ipaynow.bcfinance.domain.LoanRepay" >
+    insert into bf_repay (id, loan_credit_id, repay_amount, 
+      repay_principle, repay_rate, repay_date, 
+      chain_status, should_repay_principle, should_repay_rate, 
+      repay_record_address, status, extend, 
+      created_time, modified_time)
+    values (#{id,jdbcType=BIGINT}, #{loanCreditId,jdbcType=BIGINT}, #{repayAmount,jdbcType=DECIMAL}, 
+      #{repayPrinciple,jdbcType=DECIMAL}, #{repayRate,jdbcType=DECIMAL}, #{repayDate,jdbcType=VARCHAR}, 
+      #{chainStatus,jdbcType=TINYINT}, #{shouldRepayPrinciple,jdbcType=DECIMAL}, #{shouldRepayRate,jdbcType=DECIMAL}, 
+      #{repayRecordAddress,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{extend,jdbcType=VARCHAR}, 
+      #{createdTime,jdbcType=TIMESTAMP}, #{modifiedTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ipaynow.bcfinance.domain.LoanRepay" >
+    insert into bf_repay
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="loanCreditId != null" >
+        loan_credit_id,
+      </if>
+      <if test="repayAmount != null" >
+        repay_amount,
+      </if>
+      <if test="repayPrinciple != null" >
+        repay_principle,
+      </if>
+      <if test="repayRate != null" >
+        repay_rate,
+      </if>
+      <if test="repayDate != null" >
+        repay_date,
+      </if>
+      <if test="chainStatus != null" >
+        chain_status,
+      </if>
+      <if test="shouldRepayPrinciple != null" >
+        should_repay_principle,
+      </if>
+      <if test="shouldRepayRate != null" >
+        should_repay_rate,
+      </if>
+      <if test="repayRecordAddress != null" >
+        repay_record_address,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="extend != null" >
+        extend,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="modifiedTime != null" >
+        modified_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="loanCreditId != null" >
+        #{loanCreditId,jdbcType=BIGINT},
+      </if>
+      <if test="repayAmount != null" >
+        #{repayAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="repayPrinciple != null" >
+        #{repayPrinciple,jdbcType=DECIMAL},
+      </if>
+      <if test="repayRate != null" >
+        #{repayRate,jdbcType=DECIMAL},
+      </if>
+      <if test="repayDate != null" >
+        #{repayDate,jdbcType=VARCHAR},
+      </if>
+      <if test="chainStatus != null" >
+        #{chainStatus,jdbcType=TINYINT},
+      </if>
+      <if test="shouldRepayPrinciple != null" >
+        #{shouldRepayPrinciple,jdbcType=DECIMAL},
+      </if>
+      <if test="shouldRepayRate != null" >
+        #{shouldRepayRate,jdbcType=DECIMAL},
+      </if>
+      <if test="repayRecordAddress != null" >
+        #{repayRecordAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="extend != null" >
+        #{extend,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null" >
+        #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ipaynow.bcfinance.domain.LoanRepayExample" resultType="java.lang.Integer" >
+    select count(*) from bf_repay
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+    <select id="getSummary" resultType="com.ipaynow.bcfinance.domain.LoanRepaySum">
+       SELECT count(1) repayNumSummary,IFNULL(sum(repay_amount),0) repayAmountSummary
+       FROM  bf_repay t1  left join bf_credit t2  on   t2.id  = t1.loan_credit_id
+       where t2.debtor_user_id =#{debtor_user_id}  and t1.status=1  and t1.chain_status =1 ;
+    </select>
+    <update id="updateByExampleSelective" parameterType="map" >
+    update bf_repay
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.loanCreditId != null" >
+        loan_credit_id = #{record.loanCreditId,jdbcType=BIGINT},
+      </if>
+      <if test="record.repayAmount != null" >
+        repay_amount = #{record.repayAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.repayPrinciple != null" >
+        repay_principle = #{record.repayPrinciple,jdbcType=DECIMAL},
+      </if>
+      <if test="record.repayRate != null" >
+        repay_rate = #{record.repayRate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.repayDate != null" >
+        repay_date = #{record.repayDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chainStatus != null" >
+        chain_status = #{record.chainStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.shouldRepayPrinciple != null" >
+        should_repay_principle = #{record.shouldRepayPrinciple,jdbcType=DECIMAL},
+      </if>
+      <if test="record.shouldRepayRate != null" >
+        should_repay_rate = #{record.shouldRepayRate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.repayRecordAddress != null" >
+        repay_record_address = #{record.repayRecordAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.extend != null" >
+        extend = #{record.extend,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdTime != null" >
+        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifiedTime != null" >
+        modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update bf_repay
+    set id = #{record.id,jdbcType=BIGINT},
+      loan_credit_id = #{record.loanCreditId,jdbcType=BIGINT},
+      repay_amount = #{record.repayAmount,jdbcType=DECIMAL},
+      repay_principle = #{record.repayPrinciple,jdbcType=DECIMAL},
+      repay_rate = #{record.repayRate,jdbcType=DECIMAL},
+      repay_date = #{record.repayDate,jdbcType=VARCHAR},
+      chain_status = #{record.chainStatus,jdbcType=TINYINT},
+      should_repay_principle = #{record.shouldRepayPrinciple,jdbcType=DECIMAL},
+      should_repay_rate = #{record.shouldRepayRate,jdbcType=DECIMAL},
+      repay_record_address = #{record.repayRecordAddress,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT},
+      extend = #{record.extend,jdbcType=VARCHAR},
+      created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ipaynow.bcfinance.domain.LoanRepay" >
+    update bf_repay
+    <set >
+      <if test="loanCreditId != null" >
+        loan_credit_id = #{loanCreditId,jdbcType=BIGINT},
+      </if>
+      <if test="repayAmount != null" >
+        repay_amount = #{repayAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="repayPrinciple != null" >
+        repay_principle = #{repayPrinciple,jdbcType=DECIMAL},
+      </if>
+      <if test="repayRate != null" >
+        repay_rate = #{repayRate,jdbcType=DECIMAL},
+      </if>
+      <if test="repayDate != null" >
+        repay_date = #{repayDate,jdbcType=VARCHAR},
+      </if>
+      <if test="chainStatus != null" >
+        chain_status = #{chainStatus,jdbcType=TINYINT},
+      </if>
+      <if test="shouldRepayPrinciple != null" >
+        should_repay_principle = #{shouldRepayPrinciple,jdbcType=DECIMAL},
+      </if>
+      <if test="shouldRepayRate != null" >
+        should_repay_rate = #{shouldRepayRate,jdbcType=DECIMAL},
+      </if>
+      <if test="repayRecordAddress != null" >
+        repay_record_address = #{repayRecordAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="extend != null" >
+        extend = #{extend,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null" >
+        modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ipaynow.bcfinance.domain.LoanRepay" >
+    update bf_repay
+    set loan_credit_id = #{loanCreditId,jdbcType=BIGINT},
+      repay_amount = #{repayAmount,jdbcType=DECIMAL},
+      repay_principle = #{repayPrinciple,jdbcType=DECIMAL},
+      repay_rate = #{repayRate,jdbcType=DECIMAL},
+      repay_date = #{repayDate,jdbcType=VARCHAR},
+      chain_status = #{chainStatus,jdbcType=TINYINT},
+      should_repay_principle = #{shouldRepayPrinciple,jdbcType=DECIMAL},
+      should_repay_rate = #{shouldRepayRate,jdbcType=DECIMAL},
+      repay_record_address = #{repayRecordAddress,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      extend = #{extend,jdbcType=VARCHAR},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      modified_time = #{modifiedTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

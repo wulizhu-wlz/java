@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="zh" ng-app="myapp" ng-controller="indexCtrl">
+<head>
+	<base href="/">
+	<title>NOW现在支付</title>
+	<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+	<link rel="icon" href="style/images/favicon.ico" type="image/x-icon"/>
+	<link rel="stylesheet" type="text/css" href="style/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="style/css/default.css">
+	<link rel="stylesheet" type="text/css" href="style/css/style.min.css">
+	<link rel="stylesheet" type="text/css" href="style/css/style-responsive.min.css">
+	<link rel="stylesheet" type="text/css" href="style/css/font-awesome.css">
+	<link rel="stylesheet" type="text/css" href="style/plugins/datetimepicker/bootstrap-datetimepicker.min.css">
+
+	<link rel="stylesheet" type="text/css" href="style/css/main.min.css?v=154eb8823c">
+
+	<script src="angular/angular.min.js"></script>
+	<script src="angular/angular-ui-router.min.js"></script>
+	<script src="angular/ocLazyLoad.min.js"></script>
+
+	<!-- oclazyload -->
+	<script src="app/app.config.js?v=c8755be0f0"></script>
+	<script src="app/route.config.js?v=47100e39e3"></script>
+	<script type="text/javascript" src="style/js/md5.min.js"></script>
+	<script type="text/javascript" src="style/js/jquery-1.11.0.min.js"></script>
+	<script type="text/javascript" src="style/plugins/layer/layer.js"></script>
+
+	<script src="style/plugins/datetimepicker/bootstrap-datetimepicker.js"></script>
+	<script src="style/plugins/datetimepicker/bootstrap-datetimepicker.zh-CN.js"></script>
+	<script src="directive/directive.js?v=abc7521a3a"></script>
+	<script src="factory/factory.js?v=adc21e6f6a"></script>
+	<script src="filter/filter.js?v=b743cf9366"></script>
+	<script src="controllers/controllers.js?v=1a302f678d"></script>
+</head>
+<body>
+<div class="fade page-sidebar-fixed page-header-fixed in" ng-class="{'page-sidebar-minified': isSidebar}">
+	<div class="header navbar navbar-default navbar-fixed-top" ng-show="isSidebarShow">
+		<div class="sub-nav clearfix">
+			<a href="#" class="logo pull-left"></a>
+			<div class="pull-right">
+	            <div class="pull-left sub-nav-news">
+	                <span><i class="num ng-binding">{{userNews.userName}}</i></span>
+	                <a href="javascript:;" ng-click="exitFn(true)" class="m-r-10">退出</a>
+	            </div>
+	        </div>
+		</div>
+		<ul  class="main-nav clearfix">
+			<li ng-click="changeType($event,'debt')" name="debt"><a href="javascript:void(0)" >融资管理</a></li>
+
+		</ul>
+	</div>
+	<div ui-view class="main"></div>
+	<div id="sidebar" class="sidebar" ng-show="isSidebarShow">
+		<a href="javascript:;" class="sidebar-minify-btn" ng-click="handleSidebar()"><i class="fa fa-angle-double-left"></i></a>
+		<ul class="nav" >
+
+
+			<li class="has-sub" name="debt" >
+				<a href="javascript:;">
+					<b class="caret pull-right"></b>
+					<i class="fa fa-laptop"></i>
+					<span>融资管理</span>
+				</a>
+				<ul class="sub-menu">
+					<li><a ng-href="debtList">商户一览</a></li>
+					<li><a ng-href="debtDetail">供应链借贷一览</a></li>
+					<!--<li><a ng-href="advanceInfoList">垫资借贷一览</a></li>-->
+					<!--<li><a ng-href="platBusinessList">平台业务</a></li>-->
+				</ul>
+			</li>
+		</ul>
+	</div>
+</div>
+</body>
+</html>

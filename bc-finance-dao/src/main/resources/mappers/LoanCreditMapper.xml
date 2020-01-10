@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ipaynow.bcfinance.dao.LoanCreditMapper">
+    <resultMap id="BaseResultMap" type="com.ipaynow.bcfinance.domain.LoanCredit">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="loan_code" property="loanCode" jdbcType="VARCHAR"/>
+        <result column="creditor_user_id" property="creditorUserId" jdbcType="VARCHAR"/>
+        <result column="debtor_user_id" property="debtorUserId" jdbcType="VARCHAR"/>
+        <result column="creditor_name" property="creditorName" jdbcType="VARCHAR"/>
+        <result column="debtor_name" property="debtorName" jdbcType="VARCHAR"/>
+        <result column="financing_amount" property="financingAmount" jdbcType="DECIMAL"/>
+        <result column="financing_rate" property="financingRate" jdbcType="VARCHAR"/>
+        <result column="real_loan_time" property="realLoanTime" jdbcType="VARCHAR"/>
+        <result column="extend" property="extend" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="asset_id" property="assetId" jdbcType="VARCHAR"/>
+        <result column="created_time" property="createdTime" jdbcType="TIMESTAMP"/>
+        <result column="modified_time" property="modifiedTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, loan_code, creditor_user_id, debtor_user_id, creditor_name, debtor_name, financing_amount, 
+    financing_rate, real_loan_time, extend, status, asset_id, created_time, modified_time
+  </sql>
+
+    <select id="selectCmbList" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        bf_credit A
+        WHERE
+        created_time BETWEEN #{startTime} AND #{endTime}
+        AND
+        STATUS = 3
+        AND
+        NOT EXISTS(SELECT id FROM bf_chain_trans WHERE buiness_id = A.id AND chain_id = 2 AND operation_type = 4)
+    </select>
+    <select id="selectByExample" resultMap="BaseResultMap"
+            parameterType="com.ipaynow.bcfinance.domain.LoanCreditExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        'true' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from bf_credit
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectAssetsCredit" resultMap="BaseResultMap">
+        SELECT bf_credit.* FROM bf_credit
+        LEFT JOIN bf_merchant_platform_business
+        ON bf_credit.debtor_user_id = bf_merchant_platform_business.user_id_of_i_pay_now
+        WHERE bf_credit.real_loan_time >= bf_merchant_platform_business.statistical_date
+        AND bf_credit.`status`='0'
+        GROUP BY bf_credit.id
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from bf_credit
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from bf_credit
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.ipaynow.bcfinance.domain.LoanCreditExample">
+        delete from bf_credit
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.ipaynow.bcfinance.domain.LoanCredit">
+    insert into bf_credit (id, loan_code, creditor_user_id, 
+      debtor_user_id, creditor_name, debtor_name, 
+      financing_amount, financing_rate, real_loan_time, 
+      extend, status, asset_id, 
+      created_time, modified_time)
+    values (#{id,jdbcType=BIGINT}, #{loanCode,jdbcType=VARCHAR}, #{creditorUserId,jdbcType=VARCHAR}, 
+      #{debtorUserId,jdbcType=VARCHAR}, #{creditorName,jdbcType=VARCHAR}, #{debtorName,jdbcType=VARCHAR}, 
+      #{financingAmount,jdbcType=DECIMAL}, #{financingRate,jdbcType=VARCHAR}, #{realLoanTime,jdbcType=VARCHAR}, 
+      #{extend,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{assetId,jdbcType=VARCHAR}, 
+      #{createdTime,jdbcType=TIMESTAMP}, #{modifiedTime,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" parameterType="com.ipaynow.bcfinance.domain.LoanCredit">
+        insert into bf_credit
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="loanCode != null">
+                loan_code,
+            </if>
+            <if test="creditorUserId != null">
+                creditor_user_id,
+            </if>
+            <if test="debtorUserId != null">
+                debtor_user_id,
+            </if>
+            <if test="creditorName != null">
+                creditor_name,
+            </if>
+            <if test="debtorName != null">
+                debtor_name,
+            </if>
+            <if test="financingAmount != null">
+                financing_amount,
+            </if>
+            <if test="financingRate != null">
+                financing_rate,
+            </if>
+            <if test="realLoanTime != null">
+                real_loan_time,
+            </if>
+            <if test="extend != null">
+                extend,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="assetId != null">
+                asset_id,
+            </if>
+            <if test="createdTime != null">
+                created_time,
+            </if>
+            <if test="modifiedTime != null">
+                modified_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="loanCode != null">
+                #{loanCode,jdbcType=VARCHAR},
+            </if>
+            <if test="creditorUserId != null">
+                #{creditorUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="debtorUserId != null">
+                #{debtorUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="creditorName != null">
+                #{creditorName,jdbcType=VARCHAR},
+            </if>
+            <if test="debtorName != null">
+                #{debtorName,jdbcType=VARCHAR},
+            </if>
+            <if test="financingAmount != null">
+                #{financingAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="financingRate != null">
+                #{financingRate,jdbcType=VARCHAR},
+            </if>
+            <if test="realLoanTime != null">
+                #{realLoanTime,jdbcType=VARCHAR},
+            </if>
+            <if test="extend != null">
+                #{extend,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="assetId != null">
+                #{assetId,jdbcType=VARCHAR},
+            </if>
+            <if test="createdTime != null">
+                #{createdTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifiedTime != null">
+                #{modifiedTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.ipaynow.bcfinance.domain.LoanCreditExample"
+            resultType="java.lang.Integer">
+        select count(*) from bf_credit
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <select id="getSummary" resultType="com.ipaynow.bcfinance.domain.LoanCreditSum">
+        SELECT count(1) LoanNumSummary , IFNULL(sum(financing_amount),0) LoanAmountSummary
+        FROM bf_credit
+        <where>
+
+            <if test="debtorUserId!=null">
+                debtor_user_id = #{debtorUserId}
+            </if>
+            <if test="realLoanTimeFrom!=null">
+                <![CDATA[ and real_loan_time >= #{realLoanTimeFrom} ]]>
+            </if>
+            <if test="realLoanTimeTo!=null">
+                <![CDATA[ and real_loan_time <= #{realLoanTimeTo} ]]>
+            </if>
+        </where>
+        and STATUS = 3
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update bf_credit
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.loanCode != null">
+                loan_code = #{record.loanCode,jdbcType=VARCHAR},
+            </if>
+            <if test="record.creditorUserId != null">
+                creditor_user_id = #{record.creditorUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.debtorUserId != null">
+                debtor_user_id = #{record.debtorUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.creditorName != null">
+                creditor_name = #{record.creditorName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.debtorName != null">
+                debtor_name = #{record.debtorName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.financingAmount != null">
+                financing_amount = #{record.financingAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="record.financingRate != null">
+                financing_rate = #{record.financingRate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.realLoanTime != null">
+                real_loan_time = #{record.realLoanTime,jdbcType=VARCHAR},
+            </if>
+            <if test="record.extend != null">
+                extend = #{record.extend,jdbcType=VARCHAR},
+            </if>
+            <if test="record.status != null">
+                status = #{record.status,jdbcType=TINYINT},
+            </if>
+            <if test="record.assetId != null">
+                asset_id = #{record.assetId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createdTime != null">
+                created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.modifiedTime != null">
+                modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update bf_credit
+        set id = #{record.id,jdbcType=BIGINT},
+        loan_code = #{record.loanCode,jdbcType=VARCHAR},
+        creditor_user_id = #{record.creditorUserId,jdbcType=VARCHAR},
+        debtor_user_id = #{record.debtorUserId,jdbcType=VARCHAR},
+        creditor_name = #{record.creditorName,jdbcType=VARCHAR},
+        debtor_name = #{record.debtorName,jdbcType=VARCHAR},
+        financing_amount = #{record.financingAmount,jdbcType=DECIMAL},
+        financing_rate = #{record.financingRate,jdbcType=VARCHAR},
+        real_loan_time = #{record.realLoanTime,jdbcType=VARCHAR},
+        extend = #{record.extend,jdbcType=VARCHAR},
+        status = #{record.status,jdbcType=TINYINT},
+        asset_id = #{record.assetId,jdbcType=VARCHAR},
+        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+        modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ipaynow.bcfinance.domain.LoanCredit">
+        update bf_credit
+        <set>
+            <if test="loanCode != null">
+                loan_code = #{loanCode,jdbcType=VARCHAR},
+            </if>
+            <if test="creditorUserId != null">
+                creditor_user_id = #{creditorUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="debtorUserId != null">
+                debtor_user_id = #{debtorUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="creditorName != null">
+                creditor_name = #{creditorName,jdbcType=VARCHAR},
+            </if>
+            <if test="debtorName != null">
+                debtor_name = #{debtorName,jdbcType=VARCHAR},
+            </if>
+            <if test="financingAmount != null">
+                financing_amount = #{financingAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="financingRate != null">
+                financing_rate = #{financingRate,jdbcType=VARCHAR},
+            </if>
+            <if test="realLoanTime != null">
+                real_loan_time = #{realLoanTime,jdbcType=VARCHAR},
+            </if>
+            <if test="extend != null">
+                extend = #{extend,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="assetId != null">
+                asset_id = #{assetId,jdbcType=VARCHAR},
+            </if>
+            <if test="createdTime != null">
+                created_time = #{createdTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifiedTime != null">
+                modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ipaynow.bcfinance.domain.LoanCredit">
+    update bf_credit
+    set loan_code = #{loanCode,jdbcType=VARCHAR},
+      creditor_user_id = #{creditorUserId,jdbcType=VARCHAR},
+      debtor_user_id = #{debtorUserId,jdbcType=VARCHAR},
+      creditor_name = #{creditorName,jdbcType=VARCHAR},
+      debtor_name = #{debtorName,jdbcType=VARCHAR},
+      financing_amount = #{financingAmount,jdbcType=DECIMAL},
+      financing_rate = #{financingRate,jdbcType=VARCHAR},
+      real_loan_time = #{realLoanTime,jdbcType=VARCHAR},
+      extend = #{extend,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      asset_id = #{assetId,jdbcType=VARCHAR},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      modified_time = #{modifiedTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

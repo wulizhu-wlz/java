@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ipaynow.bcfinance.dao.JoinMerchantMapper">
+  <resultMap id="BaseResultMap" type="com.ipaynow.bcfinance.domain.JoinMerchant">
+    <id column="id_of_tb_merchant_user" jdbcType="INTEGER" property="idOfTbMerchantUser" />
+    <result column="user_id_of_i_pay_now" jdbcType="VARCHAR" property="userIdOfIPayNow" />
+    <result column="mch_name" jdbcType="VARCHAR" property="mchName" />
+    <result column="platform_id_of_i_pay_now" jdbcType="VARCHAR" property="platformIdOfIPayNow" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="chain_status" jdbcType="TINYINT" property="chainStatus" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id_of_tb_merchant_user, user_id_of_i_pay_now, mch_name, platform_id_of_i_pay_now, 
+    status, chain_status, created_time, modified_time
+  </sql>
+
+  <select id="selectCmbSendableList" resultMap="BaseResultMap">
+    SELECT
+      <include refid="Base_Column_List"/>
+    FROM
+      bf_join_merchant A
+    WHERE
+      created_time BETWEEN #{startTime} AND #{endTime}
+    AND
+      STATUS = #{status}
+    AND
+      chain_status = #{chainStatus}
+    AND
+      NOT EXISTS(SELECT id FROM bf_chain_trans WHERE buiness_id = A.user_id_of_i_pay_now and chain_id = #{chainId} AND operation_type = #{operationType} AND chain_status = #{chainStatus})
+  </select>
+
+  <select id="selectByExample" parameterType="com.ipaynow.bcfinance.domain.JoinMerchantExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from bf_join_merchant
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bf_join_merchant
+    where id_of_tb_merchant_user = #{idOfTbMerchantUser,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from bf_join_merchant
+    where id_of_tb_merchant_user = #{idOfTbMerchantUser,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ipaynow.bcfinance.domain.JoinMerchantExample">
+    delete from bf_join_merchant
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ipaynow.bcfinance.domain.JoinMerchant">
+    insert into bf_join_merchant (id_of_tb_merchant_user, user_id_of_i_pay_now, 
+      mch_name, platform_id_of_i_pay_now, status, 
+      chain_status, created_time, modified_time
+      )
+    values (#{idOfTbMerchantUser,jdbcType=INTEGER}, #{userIdOfIPayNow,jdbcType=VARCHAR}, 
+      #{mchName,jdbcType=VARCHAR}, #{platformIdOfIPayNow,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{chainStatus,jdbcType=TINYINT}, #{createdTime,jdbcType=TIMESTAMP}, #{modifiedTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ipaynow.bcfinance.domain.JoinMerchant">
+    insert into bf_join_merchant
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="idOfTbMerchantUser != null">
+        id_of_tb_merchant_user,
+      </if>
+      <if test="userIdOfIPayNow != null">
+        user_id_of_i_pay_now,
+      </if>
+      <if test="mchName != null">
+        mch_name,
+      </if>
+      <if test="platformIdOfIPayNow != null">
+        platform_id_of_i_pay_now,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="chainStatus != null">
+        chain_status,
+      </if>
+      <if test="createdTime != null">
+        created_time,
+      </if>
+      <if test="modifiedTime != null">
+        modified_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="idOfTbMerchantUser != null">
+        #{idOfTbMerchantUser,jdbcType=INTEGER},
+      </if>
+      <if test="userIdOfIPayNow != null">
+        #{userIdOfIPayNow,jdbcType=VARCHAR},
+      </if>
+      <if test="mchName != null">
+        #{mchName,jdbcType=VARCHAR},
+      </if>
+      <if test="platformIdOfIPayNow != null">
+        #{platformIdOfIPayNow,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="chainStatus != null">
+        #{chainStatus,jdbcType=TINYINT},
+      </if>
+      <if test="createdTime != null">
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null">
+        #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ipaynow.bcfinance.domain.JoinMerchantExample" resultType="java.lang.Long">
+    select count(*) from bf_join_merchant
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+    <select id="selectByMerchantUserId" resultType="com.ipaynow.bcfinance.domain.JoinMerchant">
+      SELECT
+      t1.id_of_tb_merchant_user idOfTbMerchantUser,
+      t1.user_id_of_i_pay_now userIdOfIPayNow,
+      t1.mch_name mchName,
+      t1.platform_id_of_i_pay_now platformIdOfIPayNow,
+      t1.status status,
+      t1.chain_status chainStatus,
+      t1.created_time createdTime,
+      t1.modified_time modifiedTime,
+      t2.acc_address accountAddress
+      FROM  bf_join_merchant t1 left join bf_block_chain_account t2 on t1. id_of_tb_merchant_user  = t2.id_of_tb_merchant_user
+      <where>
+      <if test="idOfTbMerchantUser != null">
+           t1.id_of_tb_merchant_user = #{idOfTbMerchantUser,jdbcType=INTEGER}
+      </if>
+      <if test="userIdOfIPayNow != null">
+        and t1.user_id_of_i_pay_now = #{userIdOfIPayNow,jdbcType=VARCHAR}
+      </if>
+      <if test="mchName != null">
+        and t1.mch_name = #{mchName,jdbcType=VARCHAR}
+      </if>
+        and t1.chain_status =1
+      </where>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+    update bf_join_merchant
+    <set>
+      <if test="record.idOfTbMerchantUser != null">
+        id_of_tb_merchant_user = #{record.idOfTbMerchantUser,jdbcType=INTEGER},
+      </if>
+      <if test="record.userIdOfIPayNow != null">
+        user_id_of_i_pay_now = #{record.userIdOfIPayNow,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mchName != null">
+        mch_name = #{record.mchName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.platformIdOfIPayNow != null">
+        platform_id_of_i_pay_now = #{record.platformIdOfIPayNow,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.chainStatus != null">
+        chain_status = #{record.chainStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.createdTime != null">
+        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifiedTime != null">
+        modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update bf_join_merchant
+    set id_of_tb_merchant_user = #{record.idOfTbMerchantUser,jdbcType=INTEGER},
+      user_id_of_i_pay_now = #{record.userIdOfIPayNow,jdbcType=VARCHAR},
+      mch_name = #{record.mchName,jdbcType=VARCHAR},
+      platform_id_of_i_pay_now = #{record.platformIdOfIPayNow,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT},
+      chain_status = #{record.chainStatus,jdbcType=TINYINT},
+      created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ipaynow.bcfinance.domain.JoinMerchant">
+    update bf_join_merchant
+    <set>
+      <if test="userIdOfIPayNow != null">
+        user_id_of_i_pay_now = #{userIdOfIPayNow,jdbcType=VARCHAR},
+      </if>
+      <if test="mchName != null">
+        mch_name = #{mchName,jdbcType=VARCHAR},
+      </if>
+      <if test="platformIdOfIPayNow != null">
+        platform_id_of_i_pay_now = #{platformIdOfIPayNow,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="chainStatus != null">
+        chain_status = #{chainStatus,jdbcType=TINYINT},
+      </if>
+      <if test="createdTime != null">
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null">
+        modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id_of_tb_merchant_user = #{idOfTbMerchantUser,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ipaynow.bcfinance.domain.JoinMerchant">
+    update bf_join_merchant
+    set user_id_of_i_pay_now = #{userIdOfIPayNow,jdbcType=VARCHAR},
+      mch_name = #{mchName,jdbcType=VARCHAR},
+      platform_id_of_i_pay_now = #{platformIdOfIPayNow,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      chain_status = #{chainStatus,jdbcType=TINYINT},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      modified_time = #{modifiedTime,jdbcType=TIMESTAMP}
+    where id_of_tb_merchant_user = #{idOfTbMerchantUser,jdbcType=INTEGER}
+  </update>
+</mapper>

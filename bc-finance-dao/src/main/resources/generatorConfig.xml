@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <!-- 驱动包配置 -->
+    <context id="context">
+        <!-- 抑制注释的生成 -->
+        <commentGenerator>
+            <property name="suppressDate" value="true"/>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <!-- 数据库连接配置 -->
+        <!--<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://192.168.105.4:3306/inter_finance_risk"-->
+                        <!--userId="ipnmengll" password="a!9CikKQpnK1$N7t"/>-->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://192.168.105.4:3306/block_chain_finance?useUnicode=true&amp;characterEncoding=UTF-8"
+                        userId="yuanhaijie" password="#OaTSZSNwulFjON2"/>
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="true"/>
+        </javaTypeResolver>
+
+        <!-- domain配置 -->
+
+        <javaModelGenerator targetPackage="com.ipaynow.bcfinance.domain" targetProject="src/main/java"/>
+        <sqlMapGenerator targetPackage="mappers" targetProject="src/main/resources"/>
+        <!-- 生成DAO的类文件以及配置文件 -->
+        <javaClientGenerator targetPackage="com.ipaynow.bcfinance.dao" targetProject="src/main/java" type="XMLMAPPER"/>
+
+        <table schema="" tableName="bf_chain_trans" domainObjectName="ChainTrans">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <!--<table schema="" tableName="ifc_channel_paymethod_config" domainObjectName="ChannelPaymethod">-->
+            <!--<property name="useActualColumnNames" value="false"/>-->
+        <!--</table>-->
+        <!--<table schema="" tableName="ifc_reminder" domainObjectName="Reminder">-->
+        <!--<property name="useActualColumnNames" value="false"/>-->
+        <!--</table>-->
+
+        <!--<table schema="" tableName="ifc_ch_bank_acc" domainObjectName="TradeTimeLimit">-->
+        <!--<property name="useActualColumnNames" value="false"/>-->
+       <!--</table>-->
+        <!--<table schema="" tableName="ifc_channel_user" domainObjectName="ChannelUser">-->
+        <!--<property name="useActualColumnNames" value="false"/>-->
+        <!--</table>-->
+
+        <!--<table schema="" tableName="ifc_bank_account_contact" domainObjectName="BankAccountContact">-->
+        <!--<property name="useActualColumnNames" value="false"/>-->
+        <!--</table>-->
+        <!--<table schema="" tableName="ifc_ch_trade" domainObjectName="ChTrade">-->
+            <!--<property name="useActualColumnNames" value="false"/>-->
+        <!--</table>-->
+        <!--<table schema="" tableName="ifc_ch_trade_ext" domainObjectName="ChTradeExt">-->
+            <!--<property name="useActualColumnNames" value="false"/>-->
+        <!--</table>-->
+
+        <!--<table schema="" tableName="ifc_org_mapping" domainObjectName="OrgMapping">-->
+        <!--<property name="useActualColumnNames" value="false"/>-->
+        <!--</table>-->
+        <!--<table schema="" tableName="ifc_org_bank_acc" domainObjectName="OrgBankAcc">-->
+        <!--<property name="useActualColumnNames" value="false"/>-->
+        <!--</table>-->
+        <!--<table schema="" tableName="ifc_org_info" domainObjectName="OrgInfo">-->
+        <!--<property name="useActualColumnNames" value="false"/>-->
+        <!--</table>-->
+        <!--<table schema="" tableName="ifc_router_info" domainObjectName="RouterInfo">-->
+        <!--<property name="useActualColumnNames" value="false"/>-->
+        <!--</table>-->
+        <!--<table schema="" tableName="ifc_router_config" domainObjectName="RouterConfig">-->
+        <!--<property name="useActualColumnNames" value="false"/>-->
+        <!--</table>-->
+
+        <!--<table schema="" tableName="ifc_org_funds_source" domainObjectName="OrgFundsSource">-->
+            <!--<property name="useActualColumnNames" value="false"/>-->
+        <!--</table>-->
+        <!--<table schema="" tableName="ifc_org_type" domainObjectName="OrgType">-->
+            <!--<property name="useActualColumnNames" value="false"/>-->
+        <!--</table>-->
+
+        <!--<table schema="" tableName="ifc_channel_token" domainObjectName="ChannelToken">-->
+            <!--<property name="useActualColumnNames" value="false"/>-->
+        <!--</table>-->
+        <!--<table schema="" tableName="ifc_channel_trans_record" domainObjectName="ChannelTransRecord">-->
+            <!--<property name="useActualColumnNames" value="false"/>-->
+        <!--</table>-->
+        <!--<table schema="" tableName="ifc_channel_user" domainObjectName="ChannelUser">-->
+            <!--<property name="useActualColumnNames" value="false"/>-->
+        <!--</table>-->
+        <!--<table schema="" tableName="ifc_org_receive_bank" domainObjectName="OrgReceiveBank">-->
+            <!--<property name="useActualColumnNames" value="false"/>-->
+        <!--</table>-->
+        <!--<table schema="" tableName="ifc_person_receive_bank" domainObjectName="PersonReceiveBank">-->
+            <!--<property name="useActualColumnNames" value="false"/>-->
+        <!--</table>-->
+        <!--<table schema="" tableName="ifc_receive_bank_usefor" domainObjectName="ReceiveBankUseFor">-->
+            <!--<property name="useActualColumnNames" value="false"/>-->
+        <!--</table>-->
+
+        <!--<table schema="" tableName="ifc_exchange_curr_pair" domainObjectName="ExchangeCurrPair">-->
+            <!--<property name="useActualColumnNames" value="false"/>-->
+        <!--</table>-->
+
+        <!--<table schema="" tableName="ifc_router" domainObjectName="Router">-->
+            <!--<property name="useActualColumnNames" value="false"/>-->
+        <!--</table>-->
+
+        <!--<table schema="" tableName="ifc_currency" domainObjectName="Currency">-->
+            <!--<property name="useActualColumnNames" value="false"/>-->
+        <!--</table>-->
+
+
+    </context>
+</generatorConfiguration>

@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ipaynow.bcfinance.dao.MerchantPlatformBusinessMapper">
+  <resultMap id="BaseResultMap" type="com.ipaynow.bcfinance.domain.MerchantPlatformBusiness">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="id_of_tb_merchant_user" jdbcType="INTEGER" property="idOfTbMerchantUser" />
+    <result column="user_id_of_i_pay_now" jdbcType="VARCHAR" property="userIdOfIPayNow" />
+    <result column="platform_name" jdbcType="VARCHAR" property="platformName" />
+    <result column="stock_amount" jdbcType="VARCHAR" property="stockAmount" />
+    <result column="sold_for_settlement_amount" jdbcType="VARCHAR" property="soldForSettlementAmount" />
+    <result column="settled_for_payment_amount" jdbcType="VARCHAR" property="settledForPaymentAmount" />
+    <result column="stock_turn_over_ratio" jdbcType="VARCHAR" property="stockTurnOverRatio" />
+    <result column="return_rate" jdbcType="VARCHAR" property="returnRate" />
+    <result column="statistical_date" jdbcType="VARCHAR" property="statisticalDate" />
+    <result column="trans_hash" jdbcType="VARCHAR" property="transHash" />
+    <result column="asset_address" jdbcType="VARCHAR" property="assetAddress" />
+    <result column="chain_status" jdbcType="TINYINT" property="chainStatus" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, id_of_tb_merchant_user, user_id_of_i_pay_now, platform_name, stock_amount, sold_for_settlement_amount, 
+    settled_for_payment_amount, stock_turn_over_ratio, return_rate, statistical_date, 
+    trans_hash, asset_address, chain_status, created_time, modified_time
+  </sql>
+  <select id="selectByExample" parameterType="com.ipaynow.bcfinance.domain.MerchantPlatformBusinessExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from bf_merchant_platform_business
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bf_merchant_platform_business
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from bf_merchant_platform_business
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ipaynow.bcfinance.domain.MerchantPlatformBusinessExample">
+    delete from bf_merchant_platform_business
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ipaynow.bcfinance.domain.MerchantPlatformBusiness">
+    insert into bf_merchant_platform_business (id, id_of_tb_merchant_user, user_id_of_i_pay_now, 
+      platform_name, stock_amount, sold_for_settlement_amount, 
+      settled_for_payment_amount, stock_turn_over_ratio, 
+      return_rate, statistical_date, trans_hash, 
+      asset_address, chain_status, created_time, 
+      modified_time)
+    values (#{id,jdbcType=BIGINT}, #{idOfTbMerchantUser,jdbcType=INTEGER}, #{userIdOfIPayNow,jdbcType=VARCHAR}, 
+      #{platformName,jdbcType=VARCHAR}, #{stockAmount,jdbcType=VARCHAR}, #{soldForSettlementAmount,jdbcType=VARCHAR}, 
+      #{settledForPaymentAmount,jdbcType=VARCHAR}, #{stockTurnOverRatio,jdbcType=VARCHAR}, 
+      #{returnRate,jdbcType=VARCHAR}, #{statisticalDate,jdbcType=VARCHAR}, #{transHash,jdbcType=VARCHAR}, 
+      #{assetAddress,jdbcType=VARCHAR}, #{chainStatus,jdbcType=TINYINT}, #{createdTime,jdbcType=TIMESTAMP}, 
+      #{modifiedTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ipaynow.bcfinance.domain.MerchantPlatformBusiness" keyProperty="id" useGeneratedKeys="true">
+    insert into bf_merchant_platform_business
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="idOfTbMerchantUser != null">
+        id_of_tb_merchant_user,
+      </if>
+      <if test="userIdOfIPayNow != null">
+        user_id_of_i_pay_now,
+      </if>
+      <if test="platformName != null">
+        platform_name,
+      </if>
+      <if test="stockAmount != null">
+        stock_amount,
+      </if>
+      <if test="soldForSettlementAmount != null">
+        sold_for_settlement_amount,
+      </if>
+      <if test="settledForPaymentAmount != null">
+        settled_for_payment_amount,
+      </if>
+      <if test="stockTurnOverRatio != null">
+        stock_turn_over_ratio,
+      </if>
+      <if test="returnRate != null">
+        return_rate,
+      </if>
+      <if test="statisticalDate != null">
+        statistical_date,
+      </if>
+      <if test="transHash != null">
+        trans_hash,
+      </if>
+      <if test="assetAddress != null">
+        asset_address,
+      </if>
+      <if test="chainStatus != null">
+        chain_status,
+      </if>
+      <if test="createdTime != null">
+        created_time,
+      </if>
+      <if test="modifiedTime != null">
+        modified_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="idOfTbMerchantUser != null">
+        #{idOfTbMerchantUser,jdbcType=INTEGER},
+      </if>
+      <if test="userIdOfIPayNow != null">
+        #{userIdOfIPayNow,jdbcType=VARCHAR},
+      </if>
+      <if test="platformName != null">
+        #{platformName,jdbcType=VARCHAR},
+      </if>
+      <if test="stockAmount != null">
+        #{stockAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="soldForSettlementAmount != null">
+        #{soldForSettlementAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="settledForPaymentAmount != null">
+        #{settledForPaymentAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="stockTurnOverRatio != null">
+        #{stockTurnOverRatio,jdbcType=VARCHAR},
+      </if>
+      <if test="returnRate != null">
+        #{returnRate,jdbcType=VARCHAR},
+      </if>
+      <if test="statisticalDate != null">
+        #{statisticalDate,jdbcType=VARCHAR},
+      </if>
+      <if test="transHash != null">
+        #{transHash,jdbcType=VARCHAR},
+      </if>
+      <if test="assetAddress != null">
+        #{assetAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="chainStatus != null">
+        #{chainStatus,jdbcType=TINYINT},
+      </if>
+      <if test="createdTime != null">
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null">
+        #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ipaynow.bcfinance.domain.MerchantPlatformBusinessExample" resultType="java.lang.Long">
+    select count(*) from bf_merchant_platform_business
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update bf_merchant_platform_business
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.idOfTbMerchantUser != null">
+        id_of_tb_merchant_user = #{record.idOfTbMerchantUser,jdbcType=INTEGER},
+      </if>
+      <if test="record.userIdOfIPayNow != null">
+        user_id_of_i_pay_now = #{record.userIdOfIPayNow,jdbcType=VARCHAR},
+      </if>
+      <if test="record.platformName != null">
+        platform_name = #{record.platformName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stockAmount != null">
+        stock_amount = #{record.stockAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.soldForSettlementAmount != null">
+        sold_for_settlement_amount = #{record.soldForSettlementAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.settledForPaymentAmount != null">
+        settled_for_payment_amount = #{record.settledForPaymentAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stockTurnOverRatio != null">
+        stock_turn_over_ratio = #{record.stockTurnOverRatio,jdbcType=VARCHAR},
+      </if>
+      <if test="record.returnRate != null">
+        return_rate = #{record.returnRate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.statisticalDate != null">
+        statistical_date = #{record.statisticalDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transHash != null">
+        trans_hash = #{record.transHash,jdbcType=VARCHAR},
+      </if>
+      <if test="record.assetAddress != null">
+        asset_address = #{record.assetAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chainStatus != null">
+        chain_status = #{record.chainStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.createdTime != null">
+        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifiedTime != null">
+        modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update bf_merchant_platform_business
+    set id = #{record.id,jdbcType=BIGINT},
+      id_of_tb_merchant_user = #{record.idOfTbMerchantUser,jdbcType=INTEGER},
+      user_id_of_i_pay_now = #{record.userIdOfIPayNow,jdbcType=VARCHAR},
+      platform_name = #{record.platformName,jdbcType=VARCHAR},
+      stock_amount = #{record.stockAmount,jdbcType=VARCHAR},
+      sold_for_settlement_amount = #{record.soldForSettlementAmount,jdbcType=VARCHAR},
+      settled_for_payment_amount = #{record.settledForPaymentAmount,jdbcType=VARCHAR},
+      stock_turn_over_ratio = #{record.stockTurnOverRatio,jdbcType=VARCHAR},
+      return_rate = #{record.returnRate,jdbcType=VARCHAR},
+      statistical_date = #{record.statisticalDate,jdbcType=VARCHAR},
+      trans_hash = #{record.transHash,jdbcType=VARCHAR},
+      asset_address = #{record.assetAddress,jdbcType=VARCHAR},
+      chain_status = #{record.chainStatus,jdbcType=TINYINT},
+      created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ipaynow.bcfinance.domain.MerchantPlatformBusiness">
+    update bf_merchant_platform_business
+    <set>
+      <if test="idOfTbMerchantUser != null">
+        id_of_tb_merchant_user = #{idOfTbMerchantUser,jdbcType=INTEGER},
+      </if>
+      <if test="userIdOfIPayNow != null">
+        user_id_of_i_pay_now = #{userIdOfIPayNow,jdbcType=VARCHAR},
+      </if>
+      <if test="platformName != null">
+        platform_name = #{platformName,jdbcType=VARCHAR},
+      </if>
+      <if test="stockAmount != null">
+        stock_amount = #{stockAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="soldForSettlementAmount != null">
+        sold_for_settlement_amount = #{soldForSettlementAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="settledForPaymentAmount != null">
+        settled_for_payment_amount = #{settledForPaymentAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="stockTurnOverRatio != null">
+        stock_turn_over_ratio = #{stockTurnOverRatio,jdbcType=VARCHAR},
+      </if>
+      <if test="returnRate != null">
+        return_rate = #{returnRate,jdbcType=VARCHAR},
+      </if>
+      <if test="statisticalDate != null">
+        statistical_date = #{statisticalDate,jdbcType=VARCHAR},
+      </if>
+      <if test="transHash != null">
+        trans_hash = #{transHash,jdbcType=VARCHAR},
+      </if>
+      <if test="assetAddress != null">
+        asset_address = #{assetAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="chainStatus != null">
+        chain_status = #{chainStatus,jdbcType=TINYINT},
+      </if>
+      <if test="createdTime != null">
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null">
+        modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ipaynow.bcfinance.domain.MerchantPlatformBusiness">
+    update bf_merchant_platform_business
+    set id_of_tb_merchant_user = #{idOfTbMerchantUser,jdbcType=INTEGER},
+      user_id_of_i_pay_now = #{userIdOfIPayNow,jdbcType=VARCHAR},
+      platform_name = #{platformName,jdbcType=VARCHAR},
+      stock_amount = #{stockAmount,jdbcType=VARCHAR},
+      sold_for_settlement_amount = #{soldForSettlementAmount,jdbcType=VARCHAR},
+      settled_for_payment_amount = #{settledForPaymentAmount,jdbcType=VARCHAR},
+      stock_turn_over_ratio = #{stockTurnOverRatio,jdbcType=VARCHAR},
+      return_rate = #{returnRate,jdbcType=VARCHAR},
+      statistical_date = #{statisticalDate,jdbcType=VARCHAR},
+      trans_hash = #{transHash,jdbcType=VARCHAR},
+      asset_address = #{assetAddress,jdbcType=VARCHAR},
+      chain_status = #{chainStatus,jdbcType=TINYINT},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      modified_time = #{modifiedTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

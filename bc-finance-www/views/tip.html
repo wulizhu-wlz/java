@@ -1,0 +1,17 @@
+<div class="modal animate-show-hide ng-cloak" ng-cloak ng-show="dialog.showTipContent">
+    <div class="modal-dialog tipContent">
+        <div class="modal-content">
+            <div class="modal-header clearfix">
+                <p class="text-center pull-left">{{dialog.title}}</p>
+                <button type="button" class="close pull-right" ng-click="dialog.hideTipContent()"></button>
+            </div>
+            <div class="modal-body tip-modal-body">
+                {{dialog.content}}
+            </div>
+            <div class="modal-footer text-center">
+                <button type="button" class="btn btn-primary btn-sm m-r-10" ng-click="dialog.submitFn()">确定</button>
+                <button type="button" class="btn btn-white btn-sm" ng-click="dialog.hideTipContent()">取消</button>
+            </div>
+        </div>
+    </div>
+</div>

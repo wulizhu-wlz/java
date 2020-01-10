@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ipaynow.bcfinance.dao.ChainTransMapper">
+  <resultMap id="BaseResultMap" type="com.ipaynow.bcfinance.domain.ChainTrans">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="buiness_id" jdbcType="VARCHAR" property="buinessId" />
+    <result column="chain_id" jdbcType="TINYINT" property="chainId" />
+    <result column="trans_hash" jdbcType="VARCHAR" property="transHash" />
+    <result column="operation_type" jdbcType="TINYINT" property="operationType" />
+    <result column="chain_status" jdbcType="TINYINT" property="chainStatus" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, buiness_id, chain_id, trans_hash, operation_type, chain_status, created_time, 
+    modified_time
+  </sql>
+
+  <select id="selectByExample" parameterType="com.ipaynow.bcfinance.domain.ChainTransExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from bf_chain_trans
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bf_chain_trans
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from bf_chain_trans
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ipaynow.bcfinance.domain.ChainTransExample">
+    delete from bf_chain_trans
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ipaynow.bcfinance.domain.ChainTrans">
+    insert into bf_chain_trans (id, buiness_id, chain_id, 
+      trans_hash, operation_type, chain_status, 
+      created_time, modified_time)
+    values (#{id,jdbcType=BIGINT}, #{buinessId,jdbcType=VARCHAR}, #{chainId,jdbcType=TINYINT}, 
+      #{transHash,jdbcType=VARCHAR}, #{operationType,jdbcType=TINYINT}, #{chainStatus,jdbcType=TINYINT}, 
+      #{createdTime,jdbcType=TIMESTAMP}, #{modifiedTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ipaynow.bcfinance.domain.ChainTrans" useGeneratedKeys="true" keyProperty="id">
+    insert into bf_chain_trans
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="buinessId != null">
+        buiness_id,
+      </if>
+      <if test="chainId != null">
+        chain_id,
+      </if>
+      <if test="transHash != null">
+        trans_hash,
+      </if>
+      <if test="operationType != null">
+        operation_type,
+      </if>
+      <if test="chainStatus != null">
+        chain_status,
+      </if>
+      <if test="createdTime != null">
+        created_time,
+      </if>
+      <if test="modifiedTime != null">
+        modified_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="buinessId != null">
+        #{buinessId,jdbcType=VARCHAR},
+      </if>
+      <if test="chainId != null">
+        #{chainId,jdbcType=TINYINT},
+      </if>
+      <if test="transHash != null">
+        #{transHash,jdbcType=VARCHAR},
+      </if>
+      <if test="operationType != null">
+        #{operationType,jdbcType=TINYINT},
+      </if>
+      <if test="chainStatus != null">
+        #{chainStatus,jdbcType=TINYINT},
+      </if>
+      <if test="createdTime != null">
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null">
+        #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ipaynow.bcfinance.domain.ChainTransExample" resultType="java.lang.Long">
+    select count(*) from bf_chain_trans
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update bf_chain_trans
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.buinessId != null">
+        buiness_id = #{record.buinessId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chainId != null">
+        chain_id = #{record.chainId,jdbcType=TINYINT},
+      </if>
+      <if test="record.transHash != null">
+        trans_hash = #{record.transHash,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operationType != null">
+        operation_type = #{record.operationType,jdbcType=TINYINT},
+      </if>
+      <if test="record.chainStatus != null">
+        chain_status = #{record.chainStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.createdTime != null">
+        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifiedTime != null">
+        modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update bf_chain_trans
+    set id = #{record.id,jdbcType=BIGINT},
+      buiness_id = #{record.buinessId,jdbcType=VARCHAR},
+      chain_id = #{record.chainId,jdbcType=TINYINT},
+      trans_hash = #{record.transHash,jdbcType=VARCHAR},
+      operation_type = #{record.operationType,jdbcType=TINYINT},
+      chain_status = #{record.chainStatus,jdbcType=TINYINT},
+      created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ipaynow.bcfinance.domain.ChainTrans">
+    update bf_chain_trans
+    <set>
+      <if test="buinessId != null">
+        buiness_id = #{buinessId,jdbcType=VARCHAR},
+      </if>
+      <if test="chainId != null">
+        chain_id = #{chainId,jdbcType=TINYINT},
+      </if>
+      <if test="transHash != null">
+        trans_hash = #{transHash,jdbcType=VARCHAR},
+      </if>
+      <if test="operationType != null">
+        operation_type = #{operationType,jdbcType=TINYINT},
+      </if>
+      <if test="chainStatus != null">
+        chain_status = #{chainStatus,jdbcType=TINYINT},
+      </if>
+      <if test="createdTime != null">
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null">
+        modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ipaynow.bcfinance.domain.ChainTrans">
+    update bf_chain_trans
+    set buiness_id = #{buinessId,jdbcType=VARCHAR},
+      chain_id = #{chainId,jdbcType=TINYINT},
+      trans_hash = #{transHash,jdbcType=VARCHAR},
+      operation_type = #{operationType,jdbcType=TINYINT},
+      chain_status = #{chainStatus,jdbcType=TINYINT},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      modified_time = #{modifiedTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
