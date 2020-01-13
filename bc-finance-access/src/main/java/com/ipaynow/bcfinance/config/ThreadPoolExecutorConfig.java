@@ -11,7 +11,7 @@ import java.util.concurrent.*;
  * description: 公用组件配置
  */
 @Configuration
-public class CommonComponentConfig {
+public class ThreadPoolExecutorConfig {
 
 
     /**
