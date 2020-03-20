@@ -10,30 +10,30 @@ import org.springframework.context.annotation.Configuration;
  * @author why Date: 2018/7/26 */
 @Configuration
 public class DubboBaseConfig {
-
-    @Value("${dubbo.application.name}")
-    private String applicationName;
-
-    @Value("${dubbo.registry.address}")
-    private String registryAddress;
-
-    @Value("${dubbo.protocol.port}")
-    private int protocolPort;
-
-    @Bean
-    public RegistryConfig registry() {
-        RegistryConfig registryConfig = new RegistryConfig();
-        registryConfig.setAddress(registryAddress);
-        registryConfig.setProtocol("dubbo");
-        return registryConfig;
-    }
-
-    @Bean
-    public ApplicationConfig application() {
-        ApplicationConfig applicationConfig = new ApplicationConfig();
-        applicationConfig.setName(applicationName);
-        return applicationConfig;
-    }
+//
+//    @Value("${dubbo.application.name}")
+//    private String applicationName;
+//
+//    @Value("${dubbo.registry.address}")
+//    private String registryAddress;
+//
+//    @Value("${dubbo.protocol.port}")
+//    private int protocolPort;
+//
+//    @Bean
+//    public RegistryConfig registry() {
+//        RegistryConfig registryConfig = new RegistryConfig();
+//        registryConfig.setAddress(registryAddress);
+//        registryConfig.setProtocol("dubbo");
+//        return registryConfig;
+//    }
+//
+//    @Bean
+//    public ApplicationConfig application() {
+//        ApplicationConfig applicationConfig = new ApplicationConfig();
+//        applicationConfig.setName(applicationName);
+//        return applicationConfig;
+//    }
 
 //    @Bean
 //    public MonitorConfig monitorConfig() {
@@ -49,12 +49,12 @@ public class DubboBaseConfig {
 //        return rc;
 //    }
 
-    @Bean
-    public ProtocolConfig protocol() {
-        ProtocolConfig protocolConfig = new ProtocolConfig();
-        protocolConfig.setPort(protocolPort);
-        return protocolConfig;
-    }
+//    @Bean
+//    public ProtocolConfig protocol() {
+//        ProtocolConfig protocolConfig = new ProtocolConfig();
+//        protocolConfig.setPort(protocolPort);
+//        return protocolConfig;
+//    }
 //
 //    @Bean
 //    public ProviderConfig provider() {

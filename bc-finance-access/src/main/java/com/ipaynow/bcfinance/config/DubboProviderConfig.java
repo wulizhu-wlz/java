@@ -12,17 +12,17 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DubboProviderConfig {
 
-    @Value("${dubbo.service.timeout}")
-    private int serviceTimeout;
-
-    @Value("${dubbo.service.retries}")
-    private int serviceRetries;
-
-    @Value("${dubbo.service.version}")
-    private String serviceVersion;
-
-    @Value("${dubbo.service.group}")
-    private String serviceGroup;
+//    @Value("${dubbo.service.timeout}")
+//    private int serviceTimeout;
+//
+//    @Value("${dubbo.service.retries}")
+//    private int serviceRetries;
+//
+//    @Value("${dubbo.service.version}")
+//    private String serviceVersion;
+//
+//    @Value("${dubbo.service.group}")
+//    private String serviceGroup;
 
 
 

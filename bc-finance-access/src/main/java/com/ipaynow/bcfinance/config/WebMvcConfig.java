@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import com.ipaynow.bcfinance.annotation.PremissionInceptor;
 import com.ipaynow.bcfinance.expcetion.BaseException;
 import com.ipaynow.bcfinance.interceptor.WebLogInterceptor;
 import org.springframework.context.annotation.Configuration;
@@ -48,7 +49,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         WebLogInterceptor webLogInterceptor = new WebLogInterceptor();
+        PremissionInceptor premissionInceptor = new PremissionInceptor();
         registry.addInterceptor(webLogInterceptor);
+        registry.addInterceptor(premissionInceptor);
     }
 
     @Override

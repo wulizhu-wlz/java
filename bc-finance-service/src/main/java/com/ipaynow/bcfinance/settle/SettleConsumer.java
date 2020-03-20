@@ -17,7 +17,7 @@ import java.util.concurrent.Executors;
  * description:
  */
 @Slf4j
-@Component
+//@Component
 public class SettleConsumer implements ApplicationListener<ContextRefreshedEvent> {
 
     private static final int CONSUMER_TREADS = 30;

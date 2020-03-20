@@ -2,6 +2,7 @@ package com.ipaynow.bcfinance.controller;
 
 import com.alibaba.fastjson.JSONObject;
 
+import com.ipaynow.bcfinance.annotation.PermissionRequired;
 import com.ipaynow.bcfinance.domain.Login;
 import com.ipaynow.bcfinance.enums.ExceptionEnum;
 import com.ipaynow.bcfinance.expcetion.BusinessException;
@@ -60,5 +61,12 @@ public class LoginController {
             resp.put("head", head);
         }
         return resp.toJSONString();
+    }
+
+    @RequestMapping("hello.do")
+    @ResponseBody
+    @PermissionRequired("hello")
+    public String login() {
+        return "ok";
     }
 }

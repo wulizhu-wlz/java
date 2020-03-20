@@ -12,20 +12,20 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DubboConsumerConfig {
 
-    @Value("${dubbo.service.timeout}")
-    private int serviceTimeout;
-
-    @Value("${dubbo.service.retries}")
-    private int serviceRetries;
-
-    @Value("${dubbo.service.version}")
-    private String serviceVersion;
-
-    @Value("${dubbo.service.group}")
-    private String serviceGroup;
-
-    @Value("${dubbo.service.want.group}")
-    private String wantServiceGroup;
+//    @Value("${dubbo.service.timeout}")
+//    private int serviceTimeout;
+//
+//    @Value("${dubbo.service.retries}")
+//    private int serviceRetries;
+//
+//    @Value("${dubbo.service.version}")
+//    private String serviceVersion;
+//
+//    @Value("${dubbo.service.group}")
+//    private String serviceGroup;
+//
+//    @Value("${dubbo.service.want.group}")
+//    private String wantServiceGroup;
 
 //    @Bean
 //    public ReferenceBean<IMerchant> iMerchant(){
