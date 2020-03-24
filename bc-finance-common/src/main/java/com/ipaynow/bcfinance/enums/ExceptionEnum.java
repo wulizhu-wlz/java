@@ -31,7 +31,8 @@ public enum ExceptionEnum {
     BLOCK_CHAIN_ACCOUNT_M_NOT_FOUND("A023","找不到商户区块链账户信息"),
     BLOCK_CHAIN_ACCOUNT_P_NOT_FOUND("A024","找不到平台区块链账户信息"),
     BLOCK_CHAIN_ACCOUNT_P_INCOMPLETE_NOT_FOUND("A025","平台区块链账户信息accAddress为空"),
-    ASSETMENT_DUPLICATE("A026","商户平台统计数据重复");
+    ASSETMENT_DUPLICATE("A026","商户平台统计数据重复"),
+    ES_INSERT_ERROR("","");
 
     private String code;
 

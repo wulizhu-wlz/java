@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Wu
  * @date 2020-03-20 10:36
  */
-public class PremissionInceptor extends HandlerInterceptorAdapter {
+public class PermissionInceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
