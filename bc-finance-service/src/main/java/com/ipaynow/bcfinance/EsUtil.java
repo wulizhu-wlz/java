@@ -1,9 +1,12 @@
-package com.ipaynow.bcfinance.es;
+package com.ipaynow.bcfinance;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ipaynow.bcfinance.enums.ExceptionEnum;
 import com.ipaynow.bcfinance.expcetion.BusinessException;
+import com.ipaynow.bcfinance.vo.ImportEsDataVo;
+import com.ipaynow.bcfinance.vo.SearchResultResp;
+import com.ipaynow.bcfinance.vo.SearchResultVo;
 import lombok.extern.log4j.Log4j2;
 import org.elasticsearch.action.DocWriteResponse;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;

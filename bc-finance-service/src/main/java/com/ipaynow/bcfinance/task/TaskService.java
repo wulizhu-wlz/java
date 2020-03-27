@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Created by ipaynow0407 on 2017/10/16.
  */
-@Component
+//@Component
 @Configuration
 @EnableScheduling
 public class TaskService {

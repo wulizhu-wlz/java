@@ -1,4 +1,4 @@
-package com.ipaynow.bcfinance.es;
+package com.ipaynow.bcfinance.config;
 
 import lombok.extern.log4j.Log4j2;
 import org.apache.http.HttpHost;
