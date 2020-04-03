@@ -14,6 +14,7 @@ public class LRU {
     static Map map = new TreeMap<String, Object>();
 
     public static void main(String[] args) {
+        Map map = new TreeMap();
     }
 
     @Data

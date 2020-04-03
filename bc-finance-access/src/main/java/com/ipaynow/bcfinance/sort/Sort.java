@@ -5,7 +5,7 @@ package com.ipaynow.bcfinance.sort;
  * @author Wu
  * @date 2020-03-25 10:26
  */
-public class InsertSort {
+public class Sort {
 
 
     public static void main(String[] args) {
@@ -79,7 +79,7 @@ public class InsertSort {
      * 选择排序
      * 根据原数组的下标位置，每一次循环遍历剩下的数组
      * 选择出每个下标位置对应的最小数字，放到当前位置上
-     * O(n^2) 不稳定排序，即内部循环不一定会走几次
+     * O(n^2) 不稳定排序，即内部循环不一定会走几次,即变量的赋值
      * 最好的时间复杂度是O(n) 即已经排好序的数组
      * @param array
      */
