@@ -25,6 +25,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @author ytw
@@ -56,6 +59,18 @@ public class JoinDataController {
         try {
             //签名校验
             environment.signVerify(message);
+            Thread thread = new Thread();
+            thread.isInterrupted();
+            message.substring(1,-3);
+            ReentrantLock reentrantLock = new ReentrantLock();
+            Condition condition = reentrantLock.newCondition();
+            condition.signal();
+            condition.await();
+
+            //1 2 3 4 5 6 7 8
+            //2 3 4 5 6 7 8
+            //3 4 5 6 9 7 8 8 8
+            //1 22 3333 444
             //处理九盈传过来的数据
             processMessage(message);
             responseJSON.put("responseCode", ExceptionEnum.SUCCESS.getCode());
